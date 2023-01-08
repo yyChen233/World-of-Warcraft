@@ -1,6 +1,5 @@
-//Ä§ÊŞÊÀ½çÖÕ¼«°æ(WarCraft IV)
-//×îÖÕ°æ 2021Äê5ÔÂ24ÈÕ
-//×÷Õß£º³ÂŞÈÑô  Ñ§ºÅ£º2000013152
+//é­”å…½ä¸–ç•Œç»ˆæç‰ˆ(WarCraft IV)
+//æœ€ç»ˆç‰ˆ 2021å¹´5æœˆ24æ—¥
 #include<iostream>
 #include<iomanip>
 #include<string>
@@ -9,40 +8,40 @@
 #define MAX 10000
 using namespace std;
 
-//ÒÔÏÂÊÇÈ«¾Ö±äÁ¿----------------------------------------------------------
-const int warriorNum = 5;//ÎäÊ¿ÖÖÀà×ÜÊı
-const int weaponNum = 3;//ÎäÆ÷ÖÖÀà×ÜÊı
-int hour = 0;//Ğ¡Ê±
-int minute = 0;//·ÖÖÓ
+//ä»¥ä¸‹æ˜¯å…¨å±€å˜é‡----------------------------------------------------------
+const int warriorNum = 5;//æ­¦å£«ç§ç±»æ€»æ•°
+const int weaponNum = 3;//æ­¦å™¨ç§ç±»æ€»æ•°
+int hour = 0;//å°æ—¶
+int minute = 0;//åˆ†é’Ÿ
 const int RED = 0, BLUE = 1;//red-0,blue-1
 int warriorAggressivity[warriorNum] = { 0 };
 //0.sword;1.bomb;2.arrow
 const string weaponName[weaponNum] = { "sword","bomb","arrow" };
-int arrowAggressivity = 0;//arrowµÄ¹¥»÷Á¦
-const int workOrder[2][warriorNum] = { {2,3,4,1,0} ,{3,0,1,2,4} };//ÖÆÔìÎäÊ¿µÄË³Ğò
+int arrowAggressivity = 0;//arrowçš„æ”»å‡»åŠ›
+const int workOrder[2][warriorNum] = { {2,3,4,1,0} ,{3,0,1,2,4} };//åˆ¶é€ æ­¦å£«çš„é¡ºåº
 const string warriorName[warriorNum] = { "dragon","ninja","iceman","lion","wolf" };//0-dragon,1-ninja.2-iceman,3-lion,4-wolf
 const string colorName[2] = { "red","blue" };//0-red,1-blue
 
-//ÒÔÏÂÊÇÀàµÄÉùÃ÷----------------------------------------------------------
-class Time;//Î¬»¤Ê±¼ä
-class Weapon;//Î¬»¤ÎäÆ÷
-class Headquarter;//Î¬»¤Ë¾Áî²¿
-class City;//Î¬»¤³ÇÊĞ
-class Warrior;//Î¬»¤ÎäÊ¿
-class Dragon;//Î¬»¤Áú
-class Ninja;//Î¬»¤ninja
-class Iceman;//Î¬»¤iceman
-class Lion;//Î¬»¤Ê¨×Ó
-class Wolf;//Î¬»¤ÀÇ
-class World;//Î¬»¤Õû¸öÄ§ÊŞÊÀ½ç
+//ä»¥ä¸‹æ˜¯ç±»çš„å£°æ˜----------------------------------------------------------
+class Time;//ç»´æŠ¤æ—¶é—´
+class Weapon;//ç»´æŠ¤æ­¦å™¨
+class Headquarter;//ç»´æŠ¤å¸ä»¤éƒ¨
+class City;//ç»´æŠ¤åŸå¸‚
+class Warrior;//ç»´æŠ¤æ­¦å£«
+class Dragon;//ç»´æŠ¤é¾™
+class Ninja;//ç»´æŠ¤ninja
+class Iceman;//ç»´æŠ¤iceman
+class Lion;//ç»´æŠ¤ç‹®å­
+class Wolf;//ç»´æŠ¤ç‹¼
+class World;//ç»´æŠ¤æ•´ä¸ªé­”å…½ä¸–ç•Œ
 
-//ÒÔÏÂÊÇÀàµÄ¾ßÌåÊµÏÖ----------------------------------------------------------
+//ä»¥ä¸‹æ˜¯ç±»çš„å…·ä½“å®ç°----------------------------------------------------------
 class Weapon
 {
 private:
-	int No;//±àºÅ
-	int aggressivity;//¹¥»÷Á¦
-	int durability;//ÄÍ¾Ã¶È
+	int No;//ç¼–å·
+	int aggressivity;//æ”»å‡»åŠ›
+	int durability;//è€ä¹…åº¦
 public:
 	void setAggressivity(Warrior* pWorrior);
 	void setDurability();
@@ -57,30 +56,30 @@ public:
 class Headquarter
 {
 private:
-	int lifeNum;//Ë¾Áî²¿ÉúÃüÖµ
-	int warriorQuantity[warriorNum];//Ã¿ÖÖÊ¿±øµÄ¸öÊı¼ÇÂ¼
-	int Number;//Ê¿±ø±àºÅ
-	int stance;//Á¢³¡£¬¼´ºì·½»òÀ¶·½
-	int sumWarriorNum;//ÖÆÔìµÄÎäÊ¿µÄ×ÜÊı
-	int totalWarriorNum;//ÏÖ´æÊ¿±ø×ÜÊı
-	int location;//Ë¾Áî²¿ËùÔÚÎ»ÖÃ
-	int reach;//µ½´ï¶Ô·½Ë¾Áî²¿µÄÎäÊ¿µÄÊıÁ¿
-	int nextProduce;//ÏÂÒ»¸öĞèÒªÖÆÔìµÄÎäÊ¿µÄÖÖÀà
-	Warrior* points[MAX];//Ê¿±øÖ¸Õë
-	int destination;//Ä¿µÄµØ
-	string colorName;//ÑÕÉ«
+	int lifeNum;//å¸ä»¤éƒ¨ç”Ÿå‘½å€¼
+	int warriorQuantity[warriorNum];//æ¯ç§å£«å…µçš„ä¸ªæ•°è®°å½•
+	int Number;//å£«å…µç¼–å·
+	int stance;//ç«‹åœºï¼Œå³çº¢æ–¹æˆ–è“æ–¹
+	int sumWarriorNum;//åˆ¶é€ çš„æ­¦å£«çš„æ€»æ•°
+	int totalWarriorNum;//ç°å­˜å£«å…µæ€»æ•°
+	int location;//å¸ä»¤éƒ¨æ‰€åœ¨ä½ç½®
+	int reach;//åˆ°è¾¾å¯¹æ–¹å¸ä»¤éƒ¨çš„æ­¦å£«çš„æ•°é‡
+	int nextProduce;//ä¸‹ä¸€ä¸ªéœ€è¦åˆ¶é€ çš„æ­¦å£«çš„ç§ç±»
+	Warrior* points[MAX];//å£«å…µæŒ‡é’ˆ
+	int destination;//ç›®çš„åœ°
+	string colorName;//é¢œè‰²
 public:
 	Headquarter() :sumWarriorNum(0), reach(0), nextProduce(0), totalWarriorNum(0),
-		location(0), destination(0), points{ NULL }{}//¹¹Ôìº¯Êı
-	void set(int life, int st);//ÉèÖÃË¾Áî²¿ÉúÃüÖµºÍÁ¢³¡
+		location(0), destination(0), points{ NULL }{}//æ„é€ å‡½æ•°
+	void set(int life, int st);//è®¾ç½®å¸ä»¤éƒ¨ç”Ÿå‘½å€¼å’Œç«‹åœº
 	int getLifeNum() { return lifeNum; }
 	int getLocation() { return location; }
 	int getColor() { return stance; }
 	string getColorName() { return colorName; }
-	void warriorescape();//Ê¨×ÓÌÓÅÜ
-	friend class World;//ÉùÃ÷WorldÎªÓÑÔªÀà
-	void reportLifePoints();//±¨¸æÉúÃüÇé¿ö
-	friend ostream& operator<<(ostream& o, Headquarter& hd);//·½±ãÊä³ö
+	void warriorescape();//ç‹®å­é€ƒè·‘
+	friend class World;//å£°æ˜Worldä¸ºå‹å…ƒç±»
+	void reportLifePoints();//æŠ¥å‘Šç”Ÿå‘½æƒ…å†µ
+	friend ostream& operator<<(ostream& o, Headquarter& hd);//æ–¹ä¾¿è¾“å‡º
 	friend class Weapon;
 	friend class Warrior;
 	friend class City;
@@ -94,51 +93,51 @@ public:
 class Warrior
 {
 private:
-	int No;//ÎäÊ¿ĞòºÅ
-	int kind;//ÎäÊ¿ÖÖÀà
-	int lifePoint;//ÎäÊ¿ÉúÃüÖµ
-	int stance;//ÎäÊ¿Á¢³¡£¨ºì»òÀ¶£©
-	int aggressivity;//ÎäÊ¿¹¥»÷Á¦
-	int temp;//ÁÙÊ±¼ÇÂ¼ÎäÆ÷ÊıÁ¿µÄ±äÁ¿
-	int position;//ÎäÊ¿Ëù´¦Î»ÖÃ
-	int swordNum;//ÎäÊ¿ËùÓµÓĞµÄ½£µÄÄÍ¾ÃÖµ
-	int arrowNum;//ÎäÊ¿ËùÓµÓĞµÄ¹­¼ıµÄÊıÁ¿
-	int bombNum;//ÎäÊ¿ËùÓµÓĞµÄÕ¨µ¯µÄÊıÁ¿
-	bool isAlive;//ÊÇ·ñ»¹»î×Å
-	bool hasArrived;//ÊÇ·ñÒÑ¾­µÖ´ï¶Ô·½Ë¾Áî²¿
-	int loyalty;//ÖÒ³Ï
-	vector<Weapon> weapon;//ÎäÆ÷
-	int NumofWeapons;//ÎäÆ÷×ÜÊı
-	int weaponKindNumber[3];//ÎäÆ÷ÊıÁ¿
-	City* loc;//Î»ÖÃ
-	Headquarter* st;//ÕóÓª
-	int pace;//²½·¥
-	bool canWeaponUse[10];//ÎäÆ÷ÄÜ·ñÊ¹ÓÃ
-	static int birthData[warriorNum];//³õÊ¼ÉúÃüÖµ
-	double morale;//Ê±ÆÚ
+	int No;//æ­¦å£«åºå·
+	int kind;//æ­¦å£«ç§ç±»
+	int lifePoint;//æ­¦å£«ç”Ÿå‘½å€¼
+	int stance;//æ­¦å£«ç«‹åœºï¼ˆçº¢æˆ–è“ï¼‰
+	int aggressivity;//æ­¦å£«æ”»å‡»åŠ›
+	int temp;//ä¸´æ—¶è®°å½•æ­¦å™¨æ•°é‡çš„å˜é‡
+	int position;//æ­¦å£«æ‰€å¤„ä½ç½®
+	int swordNum;//æ­¦å£«æ‰€æ‹¥æœ‰çš„å‰‘çš„è€ä¹…å€¼
+	int arrowNum;//æ­¦å£«æ‰€æ‹¥æœ‰çš„å¼“ç®­çš„æ•°é‡
+	int bombNum;//æ­¦å£«æ‰€æ‹¥æœ‰çš„ç‚¸å¼¹çš„æ•°é‡
+	bool isAlive;//æ˜¯å¦è¿˜æ´»ç€
+	bool hasArrived;//æ˜¯å¦å·²ç»æŠµè¾¾å¯¹æ–¹å¸ä»¤éƒ¨
+	int loyalty;//å¿ è¯š
+	vector<Weapon> weapon;//æ­¦å™¨
+	int NumofWeapons;//æ­¦å™¨æ€»æ•°
+	int weaponKindNumber[3];//æ­¦å™¨æ•°é‡
+	City* loc;//ä½ç½®
+	Headquarter* st;//é˜µè¥
+	int pace;//æ­¥ä¼
+	bool canWeaponUse[10];//æ­¦å™¨èƒ½å¦ä½¿ç”¨
+	static int birthData[warriorNum];//åˆå§‹ç”Ÿå‘½å€¼
+	double morale;//æ—¶æœŸ
 
 public:
-	Warrior(int n, Headquarter* p);//¹¹Ôìº¯Êı
+	Warrior(int n, Headquarter* p);//æ„é€ å‡½æ•°
 	Warrior() :No(0), kind(0), lifePoint(0), stance(0), aggressivity(0), position(0), swordNum(0),
-		arrowNum(0), bombNum(0), isAlive(1), hasArrived(0), loyalty(0), pace(0), morale(0) {};//¹¹Ôìº¯Êı
-	friend ostream& operator<<(ostream& o, Warrior& w);//·½±ãÊä³ö
-	virtual void printState() {};//´òÓ¡ÎäÊ¿Éú³É
+		arrowNum(0), bombNum(0), isAlive(1), hasArrived(0), loyalty(0), pace(0), morale(0) {};//æ„é€ å‡½æ•°
+	friend ostream& operator<<(ostream& o, Warrior& w);//æ–¹ä¾¿è¾“å‡º
+	virtual void printState() {};//æ‰“å°æ­¦å£«ç”Ÿæˆ
 	void printNow(int n);
-	void everyWeapons();//Í³¼ÆÎäÆ÷ÊıÁ¿
-	virtual int escape() { return 0; }//Ê¨×ÓÌÓÅÜ
-	void beFought(Warrior& w);//Ö±½ÓÃèÊö±»µĞÈË¹¥»÷
-	void beFoughtBack(Warrior& w);//Ö±½ÓÃèÊö±»µĞÈË·´»÷
-	virtual void looting(Warrior* opponent) {}//ÀÇÇÀ¶áÎäÆ÷
-	void match();//ĞĞ¾üÇ°½ø
-	void clearWeapon(int);//´¦ÀíÎäÆ÷
-	void set(Time& t, int st, int id, int cityNum, int kd, int life, int agg, int loy);//ÉèÖÃ¸÷ÏîÖ¸±ê
-	void setWeapon(int s, int a, int b);//ÉèÖÃÎäÆ÷Ö¸±ê
-	void loot(Warrior* opponent);//ÀÇÇÀ¶áÎäÆ÷
-	void yell(Time& t, int id);//Áú»¶ºô
-	void showmarch();//Êä³öĞĞ¾ü
-	void reachDestination();//Êä³öµÖ´ï
-	void output();//Êä³ö×ÔÉíÇé¿ö
-	//ÒÔÏÂÊÇÓÑÔªÀàµÄÉùÃ÷
+	void everyWeapons();//ç»Ÿè®¡æ­¦å™¨æ•°é‡
+	virtual int escape() { return 0; }//ç‹®å­é€ƒè·‘
+	void beFought(Warrior& w);//ç›´æ¥æè¿°è¢«æ•Œäººæ”»å‡»
+	void beFoughtBack(Warrior& w);//ç›´æ¥æè¿°è¢«æ•Œäººåå‡»
+	virtual void looting(Warrior* opponent) {}//ç‹¼æŠ¢å¤ºæ­¦å™¨
+	void match();//è¡Œå†›å‰è¿›
+	void clearWeapon(int);//å¤„ç†æ­¦å™¨
+	void set(Time& t, int st, int id, int cityNum, int kd, int life, int agg, int loy);//è®¾ç½®å„é¡¹æŒ‡æ ‡
+	void setWeapon(int s, int a, int b);//è®¾ç½®æ­¦å™¨æŒ‡æ ‡
+	void loot(Warrior* opponent);//ç‹¼æŠ¢å¤ºæ­¦å™¨
+	void yell(Time& t, int id);//é¾™æ¬¢å‘¼
+	void showmarch();//è¾“å‡ºè¡Œå†›
+	void reachDestination();//è¾“å‡ºæŠµè¾¾
+	void output();//è¾“å‡ºè‡ªèº«æƒ…å†µ
+	//ä»¥ä¸‹æ˜¯å‹å…ƒç±»çš„å£°æ˜
 	friend class City;
 	friend class Weapon;
 	friend class Headquarter;
@@ -153,80 +152,80 @@ public:
 class Dragon :public Warrior
 {
 private:
-	float morale;//Ê¿ÆøÖµ
+	float morale;//å£«æ°”å€¼
 public:
-	Dragon(int n, Headquarter* p);//¹¹Ôìº¯Êı
-	void printState();//´òÓ¡×´Ì¬
-	int yell();//»¶ºô
+	Dragon(int n, Headquarter* p);//æ„é€ å‡½æ•°
+	void printState();//æ‰“å°çŠ¶æ€
+	int yell();//æ¬¢å‘¼
 };
 
 class Ninja :public Warrior
 {
 public:
 	Ninja(int n, Headquarter* p);
-	void printState();//×´Ì¬
+	void printState();//çŠ¶æ€
 };
 
 class Iceman :public Warrior
 {
 private:
-	int matchCount;//ÊÇ·ñÇ°½øÁËÁ½²½
+	int matchCount;//æ˜¯å¦å‰è¿›äº†ä¸¤æ­¥
 public:
 	Iceman(int n, Headquarter* p);
-	void printState();//´òÓ¡×´Ì¬
-	virtual void match();//ĞĞ¾ü£¨¸Ä±ä£©
+	void printState();//æ‰“å°çŠ¶æ€
+	virtual void match();//è¡Œå†›ï¼ˆæ”¹å˜ï¼‰
 };
 
 class Lion :public Warrior
 {
 private:
-	int loyalty;//ÖÒÊµ¶È
+	int loyalty;//å¿ å®åº¦
 public:
 	Lion(int n, Headquarter* p);
-	void printState();//´òÓ¡×´Ì¬
-	int escape();//ÌÓÅÜ£¬1-escape;0-not escape
+	void printState();//æ‰“å°çŠ¶æ€
+	int escape();//é€ƒè·‘ï¼Œ1-escape;0-not escape
 };
 
 class Wolf :public Warrior
 {
 public:
 	Wolf(int n, Headquarter* p);
-	void printState();//´òÓ¡×´Ì¬
+	void printState();//æ‰“å°çŠ¶æ€
 };
 
 class Time
 {
 private:
-	int hour;//Ê±
-	int minute;//·Ö
-	int limit;//Ê±¼äÏŞÖÆ
+	int hour;//æ—¶
+	int minute;//åˆ†
+	int limit;//æ—¶é—´é™åˆ¶
 public:
-	Time() :hour(0), minute(0), limit(0) {}//¹¹Ôìº¯Êı
-	void setLimit(int time);//ÉèÖÃÊ±¼äÏŞÖÆ
-	friend ostream& operator<<(ostream& o, Time& t);//·½±ãÊä³ö
-	int operator+=(int n);//·½±ãÔö¼ÓÊ±¼ä
+	Time() :hour(0), minute(0), limit(0) {}//æ„é€ å‡½æ•°
+	void setLimit(int time);//è®¾ç½®æ—¶é—´é™åˆ¶
+	friend ostream& operator<<(ostream& o, Time& t);//æ–¹ä¾¿è¾“å‡º
+	int operator+=(int n);//æ–¹ä¾¿å¢åŠ æ—¶é—´
 };
 
 class City
 {
 private:
-	int flag;//ÆìÖÄ
-	int firstAttack;//Ë­ÏÈ¹¥»÷
-	int lifeNum;//ÉúÃüÔª
-	int No;//ĞòºÅ
-	int winner;//Ê¤ÀûµÄ³¡Êı
-	Warrior* warrior[2];//Á½¸öÎäÊ¿Ö¸Õë
+	int flag;//æ——å¸œ
+	int firstAttack;//è°å…ˆæ”»å‡»
+	int lifeNum;//ç”Ÿå‘½å…ƒ
+	int No;//åºå·
+	int winner;//èƒœåˆ©çš„åœºæ•°
+	Warrior* warrior[2];//ä¸¤ä¸ªæ­¦å£«æŒ‡é’ˆ
 public:
-	City() :flag(0), firstAttack(0), lifeNum(0), No(-1), winner(0), warrior{ NULL }{};//¹¹Ôìº¯Êı
-	void set(int n);//ÉèÖÃĞòºÅ
-	void setWarrior(Warrior* p, int stance);//ÉèÖÃÎäÊ¿
-	void setFlag(int st, Time& t);//ÉıÆì
-	int hasTwoWarriors();//ÊÇ·ñÓĞÁ½¸öÎäÊ¿
-	void work(Time& t, int st);//·Ö³öÁËÊ¤¸ººó£¬ÉèÖÃ¸Ä±ä
-	void change(Time& t, int k);//Î´·Ö³öÊ¤¸ººó£¬ÉèÖÃ¸Ä±ä
-	void produceElements();//²úÉúÉúÃüÔª
-	int simulate(Time& t, int k);//Ä£Äâ¿ªÕ½
-	int fight(Time& t, int k);//Ë«·½ÕæÕı¿ªÕ½£¡
+	City() :flag(0), firstAttack(0), lifeNum(0), No(-1), winner(0), warrior{ NULL }{};//æ„é€ å‡½æ•°
+	void set(int n);//è®¾ç½®åºå·
+	void setWarrior(Warrior* p, int stance);//è®¾ç½®æ­¦å£«
+	void setFlag(int st, Time& t);//å‡æ——
+	int hasTwoWarriors();//æ˜¯å¦æœ‰ä¸¤ä¸ªæ­¦å£«
+	void work(Time& t, int st);//åˆ†å‡ºäº†èƒœè´Ÿåï¼Œè®¾ç½®æ”¹å˜
+	void change(Time& t, int k);//æœªåˆ†å‡ºèƒœè´Ÿåï¼Œè®¾ç½®æ”¹å˜
+	void produceElements();//äº§ç”Ÿç”Ÿå‘½å…ƒ
+	int simulate(Time& t, int k);//æ¨¡æ‹Ÿå¼€æˆ˜
+	int fight(Time& t, int k);//åŒæ–¹çœŸæ­£å¼€æˆ˜ï¼
 	friend class World;
 	friend class Headquarter;
 };
@@ -234,36 +233,36 @@ public:
 class World
 {
 private:
-	int startLifePoint;//³õÊ¼ÉúÃüÖµ
-	int cityNum;//³ÇÊĞ×ÜÊı
-	int arrowAttack;//¹­¼ıµÄ¹¥»÷Á¦
-	int loyaltyLost;//ÖÒÊµ¶ÈÏÂ½µµÄÊıÁ¿
-	int limitTime;//ÏŞÖÆÊ±¼ä
-	int startWarriorLifeNum[5];//³õÊ¼ÎäÊ¿µÄÉúÃüÖµ
-	int startWarriorAggressivity[5];//³õÊ¼ÎäÊ¿µÄ¹¥»÷Á¦
-	Time time;//Ê±¼äÀà
-	Headquarter headquarter[2];//Á½¸öË¾Áî²¿
-	City* cities;//¶à¸ö³ÇÊĞ
-	Warrior* warrior[2];//Ë«·½¶à¸öÎäÊ¿
+	int startLifePoint;//åˆå§‹ç”Ÿå‘½å€¼
+	int cityNum;//åŸå¸‚æ€»æ•°
+	int arrowAttack;//å¼“ç®­çš„æ”»å‡»åŠ›
+	int loyaltyLost;//å¿ å®åº¦ä¸‹é™çš„æ•°é‡
+	int limitTime;//é™åˆ¶æ—¶é—´
+	int startWarriorLifeNum[5];//åˆå§‹æ­¦å£«çš„ç”Ÿå‘½å€¼
+	int startWarriorAggressivity[5];//åˆå§‹æ­¦å£«çš„æ”»å‡»åŠ›
+	Time time;//æ—¶é—´ç±»
+	Headquarter headquarter[2];//ä¸¤ä¸ªå¸ä»¤éƒ¨
+	City* cities;//å¤šä¸ªåŸå¸‚
+	Warrior* warrior[2];//åŒæ–¹å¤šä¸ªæ­¦å£«
 	int end;
 public:
-	World(int caseNum);//¹¹Ôìº¯Êı
-	void produceWarrior(int stance);//ÖÆÔìÎäÊ¿
-	void escape(int postion, int stance);//Ê¨×ÓÌÓÅÜ
-	void march();//ĞĞ¾ü
-	void work();//¸üĞÂĞÅÏ¢
-	void earnLifePoint(int i);//»ñµÃÉúÃüÖµ
-	void releaseArrow();//·Å¼ı£¡
-	void releaseBomb();//·ÅÕ¨µ¯£¡
-	void giveBonus(int stance, int position, int& bonus);//¸øÓè½±Àø
+	World(int caseNum);//æ„é€ å‡½æ•°
+	void produceWarrior(int stance);//åˆ¶é€ æ­¦å£«
+	void escape(int postion, int stance);//ç‹®å­é€ƒè·‘
+	void march();//è¡Œå†›
+	void work();//æ›´æ–°ä¿¡æ¯
+	void earnLifePoint(int i);//è·å¾—ç”Ÿå‘½å€¼
+	void releaseArrow();//æ”¾ç®­ï¼
+	void releaseBomb();//æ”¾ç‚¸å¼¹ï¼
+	void giveBonus(int stance, int position, int& bonus);//ç»™äºˆå¥–åŠ±
 	void output();
-	void fight();//¿ªÕ½£¡
-	void operation();//Õû¸öÊ±¼äµÄÔËĞĞ
-	void myDelete();//·ÀÖ¹ÄÚ´æÀ¬»ø
+	void fight();//å¼€æˆ˜ï¼
+	void operation();//æ•´ä¸ªæ—¶é—´çš„è¿è¡Œ
+	void myDelete();//é˜²æ­¢å†…å­˜åƒåœ¾
 };
 
-//ÒÔÏÂÊÇÀàµÄ³ÉÔ±º¯Êı----------------------------------------------------------
-//WeaponÀà
+//ä»¥ä¸‹æ˜¯ç±»çš„æˆå‘˜å‡½æ•°----------------------------------------------------------
+//Weaponç±»
 void Weapon::setAggressivity(Warrior* pWorrior)
 {
 	switch (No)
@@ -288,7 +287,7 @@ void Weapon::setDurability()
 		durability = 3; break;
 	}
 }
-int Weapon::changeAggressivity()//0--»µÁË
+int Weapon::changeAggressivity()//0--åäº†
 {
 	if (No == 0)
 	{
@@ -299,7 +298,7 @@ int Weapon::changeAggressivity()//0--»µÁË
 	return 1;
 }
 
-//HeadquarterÀà
+//Headquarterç±»
 void Headquarter::set(int life, int st)
 {
 	lifeNum = life;
@@ -307,25 +306,25 @@ void Headquarter::set(int life, int st)
 }
 void Headquarter::warriorescape()
 {
-	int te = 0;//±ãÓÚ´¦ÀíÒÑ¾­ËÀÍöµÄÎäÊ¿
+	int te = 0;//ä¾¿äºå¤„ç†å·²ç»æ­»äº¡çš„æ­¦å£«
 	for (int i = 0; i < totalWarriorNum + te; i++)
 	{
-		if (points[i] == NULL)//ÎäÊ¿ÒÑ¾­ËÀÍö
+		if (points[i] == NULL)//æ­¦å£«å·²ç»æ­»äº¡
 		{
 			te++;
 			continue;
 		}
-		if (points[i]->escape())//Ê¨×ÓÌÓÅÜÁË£¡
+		if (points[i]->escape())//ç‹®å­é€ƒè·‘äº†ï¼
 		{
 			printf("%03d:%02d", hour, minute % 60);
 			cout << ' ' << colorName << ' ' << warriorName[points[i]->kind]
-				<< ' ' << points[i]->No << " ran away" << endl;//Êä³öĞÅÏ¢
+				<< ' ' << points[i]->No << " ran away" << endl;//è¾“å‡ºä¿¡æ¯
 			if (stance == 0)
 				points[i]->loc->warrior[0] = NULL;
 			else
 				points[i]->loc->warrior[1] = NULL;
 			points[i] = NULL;
-			totalWarriorNum--;//×ÜÎäÊ¿Êı¼õÒ»
+			totalWarriorNum--;//æ€»æ­¦å£«æ•°å‡ä¸€
 		}
 	}
 }
@@ -340,7 +339,7 @@ ostream& operator<<(ostream& o, Headquarter& hd)
 	return o;
 }
 
-//WarriorÀà
+//Warriorç±»
 int Warrior::birthData[warriorNum];
 Warrior::Warrior(int n, Headquarter* p): No(n), st(p), weapon(10)
 {
@@ -358,14 +357,14 @@ ostream& operator<<(ostream& o, Warrior& w)
 }
 void Warrior::beFought(Warrior& w)
 {
-	//Ã¿´ÎÕ½¶·Ö»ÓĞÒ»·½·¢ÆğÖ÷¶¯½ø¹¥Ò»´Î¡£
-	//±»¹¥»÷ÕßÉúÃüÖµ»á¼õÈ¥½ø¹¥ÕßµÄ¹¥»÷Á¦ÖµºÍ½ø¹¥ÕßÊÖÖĞswordµÄ¹¥»÷Á¦Öµ
+	//æ¯æ¬¡æˆ˜æ–—åªæœ‰ä¸€æ–¹å‘èµ·ä¸»åŠ¨è¿›æ”»ä¸€æ¬¡ã€‚
+	//è¢«æ”»å‡»è€…ç”Ÿå‘½å€¼ä¼šå‡å»è¿›æ”»è€…çš„æ”»å‡»åŠ›å€¼å’Œè¿›æ”»è€…æ‰‹ä¸­swordçš„æ”»å‡»åŠ›å€¼
 	lifePoint = lifePoint - (w.aggressivity + w.swordNum);
 	w.swordNum *= 0.8;
 }
 void Warrior::everyWeapons()
 {
-	//±éÀúÒ»±é£¬ÊıÒ»ÏÂ×Ô¼ºµÄÎäÆ÷ÊıÁ¿
+	//éå†ä¸€éï¼Œæ•°ä¸€ä¸‹è‡ªå·±çš„æ­¦å™¨æ•°é‡
 	weaponKindNumber[0] = weaponKindNumber[1] = weaponKindNumber[2] = 0;
 	for (int i = 0; i < NumofWeapons; i++)
 		weaponKindNumber[No]++;
@@ -379,8 +378,8 @@ void Warrior::reachDestination()
 }
 void Warrior::beFoughtBack(Warrior& w)
 {
-	//±»½ø¹¥ÕßÈôÃ»ËÀ£¬¾Í»á·¢Æğ·´»÷.
-	//±»·´»÷ÕßµÄÉúÃüÖµÒª¼õÈ¥·´»÷Õß¹¥»÷Á¦ÖµµÄÒ»°ë(È¥Î²È¡Õû)ºÍ·´»÷ÕßÊÖÖĞswordµÄ¹¥»÷Á¦Öµ
+	//è¢«è¿›æ”»è€…è‹¥æ²¡æ­»ï¼Œå°±ä¼šå‘èµ·åå‡».
+	//è¢«åå‡»è€…çš„ç”Ÿå‘½å€¼è¦å‡å»åå‡»è€…æ”»å‡»åŠ›å€¼çš„ä¸€åŠ(å»å°¾å–æ•´)å’Œåå‡»è€…æ‰‹ä¸­swordçš„æ”»å‡»åŠ›å€¼
 	lifePoint = lifePoint - (w.aggressivity / 2 + w.swordNum);
 	w.swordNum *= 0.8;
 }
@@ -388,11 +387,11 @@ void Warrior::match()
 {
 	pace++;
 	position = (stance) ? position - 1 : position + 1;
-	if (kind == 2 && !(pace % 2))//iceman Ã¿Ç°½øÁ½²½£¬ÔÚµÚ2²½Íê³ÉµÄÊ±ºò£¬ÉúÃüÖµ»á¼õÉÙ9£¬¹¥»÷Á¦»áÔö¼Ó20
+	if (kind == 2 && !(pace % 2))//iceman æ¯å‰è¿›ä¸¤æ­¥ï¼Œåœ¨ç¬¬2æ­¥å®Œæˆçš„æ—¶å€™ï¼Œç”Ÿå‘½å€¼ä¼šå‡å°‘9ï¼Œæ”»å‡»åŠ›ä¼šå¢åŠ 20
 	{
 		aggressivity += 20;
 		lifePoint -= 9;
-		if (lifePoint <= 0)//µ«ÊÇÈôÉúÃüÖµ¼õ9ºó»áĞ¡ÓÚµÈÓÚ0£¬ÔòÉúÃüÖµ²»¼õ9,¶øÊÇ±äÎª1¡£¼´iceman²»»áÒò×ß¶àÁË¶øËÀ
+		if (lifePoint <= 0)//ä½†æ˜¯è‹¥ç”Ÿå‘½å€¼å‡9åä¼šå°äºç­‰äº0ï¼Œåˆ™ç”Ÿå‘½å€¼ä¸å‡9,è€Œæ˜¯å˜ä¸º1ã€‚å³icemanä¸ä¼šå› èµ°å¤šäº†è€Œæ­»
 			lifePoint = 1;
 	}
 }
@@ -414,7 +413,7 @@ void Warrior::set(Time& t, int st, int id, int cityNum, int kd, int life, int ag
 	position = (st == 1) ? cityNum + 1 : 0;
 	setWeapon(0, 0, 0);
 	cout << t << *this << " born" << endl;
-	if (kind == 1)//ninja¿ÉÒÔÓµÓĞÁ½¼şÎäÆ÷¡£±àºÅÎªnµÄninja½µÉúÊ±¼´»ñµÃ±àºÅÎª n%3 ºÍ (n+1)%3µÄÎäÆ÷
+	if (kind == 1)//ninjaå¯ä»¥æ‹¥æœ‰ä¸¤ä»¶æ­¦å™¨ã€‚ç¼–å·ä¸ºnçš„ninjaé™ç”Ÿæ—¶å³è·å¾—ç¼–å·ä¸º n%3 å’Œ (n+1)%3çš„æ­¦å™¨
 	{
 		if (id % 3 == 0)
 			setWeapon(aggressivity * 2 / 10, 0, 1);
@@ -423,12 +422,12 @@ void Warrior::set(Time& t, int st, int id, int cityNum, int kd, int life, int ag
 		else
 			setWeapon(aggressivity * 2 / 10, 3, 0);
 	}
-	else if (kind == 3)//lion ÓĞ¡°ÖÒ³Ï¶È¡±Õâ¸öÊôĞÔ£¬Æä³õÊ¼ÖµµÈÓÚËü½µÉúÖ®ºóÆäË¾Áî²¿Ê£ÓàÉúÃüÔªµÄÊıÄ¿
+	else if (kind == 3)//lion æœ‰â€œå¿ è¯šåº¦â€è¿™ä¸ªå±æ€§ï¼Œå…¶åˆå§‹å€¼ç­‰äºå®ƒé™ç”Ÿä¹‹åå…¶å¸ä»¤éƒ¨å‰©ä½™ç”Ÿå‘½å…ƒçš„æ•°ç›®
 	{
 		loyalty = loy;
 		cout << "Its loyalty is " << loy << endl;
 	}
-	else if (kind == 0)//dragon¿ÉÒÔÓµÓĞÒ»¼şÎäÆ÷¡£±àºÅÎªnµÄdragon½µÉúÊ±¼´»ñµÃ±àºÅÎª n%3 µÄÎäÆ÷
+	else if (kind == 0)//dragonå¯ä»¥æ‹¥æœ‰ä¸€ä»¶æ­¦å™¨ã€‚ç¼–å·ä¸ºnçš„dragoné™ç”Ÿæ—¶å³è·å¾—ç¼–å·ä¸º n%3 çš„æ­¦å™¨
 	{
 		morale = double(loy) / lifePoint;
 		printf("Its morale is %.2lf\n", morale);
@@ -439,7 +438,7 @@ void Warrior::set(Time& t, int st, int id, int cityNum, int kd, int life, int ag
 		else
 			setWeapon(0, 3, 0);
 	}
-	else if (kind == 2)//iceman¿ÉÒÔÓµÓĞÒ»¼şÎäÆ÷¡£±àºÅÎªnµÄiceman½µÉúÊ±¼´»ñµÃ±àºÅÎª n%3 µÄÎäÆ÷
+	else if (kind == 2)//icemanå¯ä»¥æ‹¥æœ‰ä¸€ä»¶æ­¦å™¨ã€‚ç¼–å·ä¸ºnçš„icemané™ç”Ÿæ—¶å³è·å¾—ç¼–å·ä¸º n%3 çš„æ­¦å™¨
 	{
 		if (id % 3 == 0)
 			setWeapon(aggressivity * 2 / 10, 0, 0);
@@ -468,11 +467,11 @@ void Warrior::loot(Warrior* opponent)
 		arrowNum = opponent->arrowNum;
 	}
 }
-void Warrior::clearWeapon(int temp)//´¦ÀíÄÍ¾Ã¶ÈÊÇ0µÄÎäÆ÷
+void Warrior::clearWeapon(int temp)//å¤„ç†è€ä¹…åº¦æ˜¯0çš„æ­¦å™¨
 {
 	NumofWeapons = temp;
 	for (int i = 0; i < 10; i++)
-		if (canWeaponUse[i] == false)//ÎäÆ÷»µÁË
+		if (canWeaponUse[i] == false)//æ­¦å™¨åäº†
 		{
 			weapon.erase(weapon.begin() + i, weapon.begin() + (i + 1));
 			weapon.resize(10);
@@ -487,7 +486,7 @@ void Warrior::output()
 {
 	cout << (*this) << " has ";
 	int check = 0;
-	//ÒÔÏÂÊä³öÎäÆ÷ÊıÁ¿
+	//ä»¥ä¸‹è¾“å‡ºæ­¦å™¨æ•°é‡
 	if (arrowNum)
 	{
 		cout << "arrow(" << arrowNum << ")";
@@ -512,7 +511,7 @@ void Warrior::output()
 		cout << endl;
 }
 
-//DragonÀà
+//Dragonç±»
 Dragon::Dragon(int n, Headquarter* p) :Warrior(n, p)
 {
 	weapon[0].No = No % weaponNum;
@@ -539,7 +538,7 @@ int Dragon::yell()
 	return 1;
 }
 
-//NinjaÀà
+//Ninjaç±»
 void Ninja::printState()
 {
 		Warrior::printNow(1);
@@ -559,7 +558,7 @@ Ninja::Ninja(int n, Headquarter* p) :Warrior(n, p)
 	weapon[1].setDurability();
 }
 
-//IcemanÀà
+//Icemanç±»
 Iceman::Iceman(int n, Headquarter* p) :Warrior(n, p)
 {
 	weapon[0].No = No % weaponNum;
@@ -588,7 +587,7 @@ void Iceman::match()
 	}
 }
 
-//LionÀà
+//Lionç±»
 Lion::Lion(int n, Headquarter* p) :Warrior(n, p)
 {
 	kind = 3;
@@ -610,7 +609,7 @@ int Lion::escape()//1-escape;0-not escape
 	return 0;
 }
 
-//WolfÀà
+//Wolfç±»
 void Wolf::printState()
 {
 	Warrior::printNow(4);
@@ -624,7 +623,7 @@ Wolf::Wolf(int n, Headquarter* p) :Warrior(n, p)
 	lifePoint = birthData[4];
 }
 
-//TimeÀà
+//Timeç±»
 void Time::setLimit(int time)
 {
 	limit = time;
@@ -643,7 +642,7 @@ int Time::operator+=(int n)
 	return minute <= limit;
 }
 
-//CityÀà
+//Cityç±»
 void City::set(int n)
 {
 	winner = 0, lifeNum = 0, flag = 0;
@@ -653,43 +652,43 @@ void City::set(int n)
 }
 void City::setFlag(int st, Time& t)
 {
-	if (st && winner <= 0)//²»ºÏÀíÇé¿ö
+	if (st && winner <= 0)//ä¸åˆç†æƒ…å†µ
 	{
 		winner = 1;
 		return;
 	}
-	if (!st && winner >= 0)//²»ºÏ¹æÇé¿ö
+	if (!st && winner >= 0)//ä¸åˆè§„æƒ…å†µ
 	{
 		winner = -1;
 		return;
 	}
-	if (st&&winner==1)//st==1±íÊ¾À¶·½»ñµÃÁËÊ¤Àû
+	if (st&&winner==1)//st==1è¡¨ç¤ºè“æ–¹è·å¾—äº†èƒœåˆ©
 	{
 		winner = 2;
 		if (!flag)
 		{
-			flag = 1, firstAttack = 1;//²åÀ¶Æì£¬À¶ÎäÊ¿ÏÈ½ø¹¥
+			flag = 1, firstAttack = 1;//æ’è“æ——ï¼Œè“æ­¦å£«å…ˆè¿›æ”»
 			cout << t << "blue flag raised in city " << No << endl;
 		}
 		else if (!firstAttack)
 		{
-			flag = 1, firstAttack = 1;//²åÀ¶Æì£¬À¶ÎäÊ¿ÏÈ½ø¹¥
+			flag = 1, firstAttack = 1;//æ’è“æ——ï¼Œè“æ­¦å£«å…ˆè¿›æ”»
 			cout << t << "blue flag raised in city " << No << endl;
 		}
 	}
-	else if(winner==-1)//ºì·½Ê¤
+	else if(winner==-1)//çº¢æ–¹èƒœ
 	{
 		winner = -2;
 		if (!flag )
 		{
 			flag = 1;
-			firstAttack = 0;//²åºìÆì£¬ºì·½ÏÈ½ø¹¥
+			firstAttack = 0;//æ’çº¢æ——ï¼Œçº¢æ–¹å…ˆè¿›æ”»
 			cout << t << "red flag raised in city " << No << endl;
 		}
 		else if (firstAttack)
 		{
 			flag = 1;
-			firstAttack = 0;//²åºìÆì£¬ºì·½ÏÈ½ø¹¥
+			firstAttack = 0;//æ’çº¢æ——ï¼Œçº¢æ–¹å…ˆè¿›æ”»
 			cout << t << "red flag raised in city " << No << endl;
 		}
 	}
@@ -699,7 +698,7 @@ int City::hasTwoWarriors()
 {
 	auto p1 = warrior[0];
 	auto p2 = warrior[1];
-	if (p1 && p2)//Ë«·½¶¼ÔÚ
+	if (p1 && p2)//åŒæ–¹éƒ½åœ¨
 	{
 		if (p1->position == No && p2->position == No)
 			return 1;
@@ -709,18 +708,18 @@ int City::hasTwoWarriors()
 void City::work(Time& t, int st)
 {
 	
-	if (warrior[st]->kind == 4)//wolf½µÉúÊ±Ã»ÓĞÎäÆ÷£¬µ«ÊÇÔÚÕ½¶·ÖĞÈç¹û»ñÊ¤£¨É±ËÀµĞÈË£©£¬¾Í»á½É»ñµĞÈËµÄÎäÆ÷£¬µ«×Ô¼ºÒÑÓĞµÄÎäÆ÷¾Í²»½É»ñÁË
+	if (warrior[st]->kind == 4)//wolfé™ç”Ÿæ—¶æ²¡æœ‰æ­¦å™¨ï¼Œä½†æ˜¯åœ¨æˆ˜æ–—ä¸­å¦‚æœè·èƒœï¼ˆæ€æ­»æ•Œäººï¼‰ï¼Œå°±ä¼šç¼´è·æ•Œäººçš„æ­¦å™¨ï¼Œä½†è‡ªå·±å·²æœ‰çš„æ­¦å™¨å°±ä¸ç¼´è·äº†
 	{
 		warrior[st]->loot(warrior[!st]);
 	}
-	else if (warrior[st]->kind == 0)//dragon ÔÚÒ»´ÎÔÚËüÖ÷¶¯½ø¹¥µÄÕ½¶·½áÊøºó£¬Èç¹û»¹Ã»ÓĞÕ½ËÀ£¬¶øÇÒÊ¿ÆøÖµ´óÓÚ0.8£¬¾Í»á»¶ºô
+	else if (warrior[st]->kind == 0)//dragon åœ¨ä¸€æ¬¡åœ¨å®ƒä¸»åŠ¨è¿›æ”»çš„æˆ˜æ–—ç»“æŸåï¼Œå¦‚æœè¿˜æ²¡æœ‰æˆ˜æ­»ï¼Œè€Œä¸”å£«æ°”å€¼å¤§äº0.8ï¼Œå°±ä¼šæ¬¢å‘¼
 	{
 		warrior[st]->morale += 0.2;
 		if (st == firstAttack && warrior[st]->morale > 0.8)
 			warrior[st]->yell(t, No);
 	}
 	cout << t << (*warrior[st]) << " earned " << lifeNum << " elements for his headquarter" << endl;
-	setFlag(st, t);//²åÆì×Ó
+	setFlag(st, t);//æ’æ——å­
 }
 void City::setWarrior(Warrior* p, int stance)
 {
@@ -729,7 +728,7 @@ void City::setWarrior(Warrior* p, int stance)
 }
 void City::change(Time& t, int k)
 {
-	winner = 0;//ÎŞÈË»ñÊ¤
+	winner = 0;//æ— äººè·èƒœ
 	for (int i = 0; i < 2; i++)
 	{
 		if (warrior[i]->kind == 3)
@@ -737,7 +736,7 @@ void City::change(Time& t, int k)
 		else if (warrior[i]->kind == 0)
 			warrior[i]->morale -= 0.2;
 	}
-	if (warrior[firstAttack]->kind == 0 && warrior[firstAttack]->morale > 0.8)//ÁúÃ»ËÀ
+	if (warrior[firstAttack]->kind == 0 && warrior[firstAttack]->morale > 0.8)//é¾™æ²¡æ­»
 	{
 		cout << t << (*warrior[firstAttack]) << " yelled in city " << No << endl;
 	}
@@ -748,47 +747,47 @@ void City::produceElements()
 }
 int City::fight(Time& t, int k)
 {
-	int tempLifeNum[2] = { warrior[0]->lifePoint,warrior[1]->lifePoint };//ÁÙÊ±¼ÇÂ¼ÉúÃüÖµ
-	int loser;//Ê§°ÜÕß
+	int tempLifeNum[2] = { warrior[0]->lifePoint,warrior[1]->lifePoint };//ä¸´æ—¶è®°å½•ç”Ÿå‘½å€¼
+	int loser;//å¤±è´¥è€…
 	warrior[!firstAttack]->beFought(*warrior[firstAttack]);
 	cout << t << (*warrior[firstAttack]) << " attacked "
 		<< (*warrior[!firstAttack]) << " in city " << No << " with "
 		<< warrior[firstAttack]->lifePoint << " elements and force "
-		<< warrior[firstAttack]->aggressivity << endl;//Êä³öĞÅÏ¢
-	if (warrior[!firstAttack]->lifePoint <= 0)//µĞ·½ËÀÁË£¡
+		<< warrior[firstAttack]->aggressivity << endl;//è¾“å‡ºä¿¡æ¯
+	if (warrior[!firstAttack]->lifePoint <= 0)//æ•Œæ–¹æ­»äº†ï¼
 	{
 		loser = !firstAttack;
 		cout << t << (*warrior[!firstAttack]) << " was killed in city " << No << endl;
 		work(t, firstAttack);
-		if (warrior[loser]->kind == 3)//lionµÄÇé¿ö£¬ÎüÈ¡¶Ô·½ÉúÃüÔª
+		if (warrior[loser]->kind == 3)//lionçš„æƒ…å†µï¼Œå¸å–å¯¹æ–¹ç”Ÿå‘½å…ƒ
 		{
 			warrior[!loser]->lifePoint += tempLifeNum[loser];
 		}
 		return loser;
 	}
-	else if (warrior[!firstAttack]->kind != 1)//µĞ·½Ã»ËÀ£¬ÇÒ²»ÊÇninja£¬ĞèÒª·´»÷£¡
+	else if (warrior[!firstAttack]->kind != 1)//æ•Œæ–¹æ²¡æ­»ï¼Œä¸”ä¸æ˜¯ninjaï¼Œéœ€è¦åå‡»ï¼
 	{
 		cout << t << (*warrior[!firstAttack]) << " fought back against "
 			<< (*warrior[firstAttack]) << " in city " << No << endl;
-		warrior[firstAttack]->beFoughtBack(*warrior[!firstAttack]);//Êä³ö·´»÷ĞÅÏ¢
-		if (warrior[firstAttack]->lifePoint <= 0)//·´»÷Ê¹¼º·½ËÀÁË£¡
+		warrior[firstAttack]->beFoughtBack(*warrior[!firstAttack]);//è¾“å‡ºåå‡»ä¿¡æ¯
+		if (warrior[firstAttack]->lifePoint <= 0)//åå‡»ä½¿å·±æ–¹æ­»äº†ï¼
 		{
 			loser = firstAttack;
 			cout << t << (*warrior[loser]) << " was killed in city " << No << endl;
 			work(t, !loser);
-			if (warrior[loser]->kind == 3)//lionµÄÇé¿ö£¬ÎüÈ¡lionµÄÉúÃüÔª
+			if (warrior[loser]->kind == 3)//lionçš„æƒ…å†µï¼Œå¸å–lionçš„ç”Ÿå‘½å…ƒ
 			{
 				warrior[!loser]->lifePoint += tempLifeNum[loser];
 			}
 			return loser;
 		}
 	}
-	change(t, k);//¶¼Ã»ËÀ£¬Ö´ĞĞË«·½¶¼»î×ÅµÄÒ»Ğ©±ä»¯
+	change(t, k);//éƒ½æ²¡æ­»ï¼Œæ‰§è¡ŒåŒæ–¹éƒ½æ´»ç€çš„ä¸€äº›å˜åŒ–
 	return -1;
 }
 int City::simulate(Time& t, int k)
 {
-	//Óëfightº¯ÊıµÄÇø±ğ£¬ÔÚÓÚ½ö½öÄ£Äâ£¬²»×ö³öÊµÖÊ¸Ä±ä
+	//ä¸fightå‡½æ•°çš„åŒºåˆ«ï¼Œåœ¨äºä»…ä»…æ¨¡æ‹Ÿï¼Œä¸åšå‡ºå®è´¨æ”¹å˜
 	int tempLifeNum[2] = { warrior[0]->lifePoint,warrior[1]->lifePoint };
 	int loser;
 	warrior[!firstAttack]->beFought(*warrior[firstAttack]);
@@ -797,7 +796,7 @@ int City::simulate(Time& t, int k)
 		loser = !firstAttack;
 		return loser;
 	}
-	else if (warrior[!firstAttack]->kind != 1)//²»ÊÇninja
+	else if (warrior[!firstAttack]->kind != 1)//ä¸æ˜¯ninja
 	{
 		warrior[firstAttack]->beFoughtBack(*warrior[!firstAttack]);
 		if (warrior[firstAttack]->lifePoint <= 0)
@@ -809,7 +808,7 @@ int City::simulate(Time& t, int k)
 	return -1;
 }
 
-//WorldÀà
+//Worldç±»
 World::World(int caseNum):end(0)
 {
 	cin >> startLifePoint >> cityNum >> arrowAttack >> loyaltyLost >> limitTime;
@@ -819,7 +818,7 @@ World::World(int caseNum):end(0)
 		cin >> startWarriorAggressivity[i];
 	cities = new City[cityNum + 2];
 	for (int i = 0; i < cityNum + 2; i++)
-		cities[i].set(i);//ÉèÖÃÁ¢³¡
+		cities[i].set(i);//è®¾ç½®ç«‹åœº
 	for (int i = 0; i < 2; i++)
 		warrior[i] = new Warrior[limitTime / 60 + 5];
 	time.setLimit(limitTime);
@@ -829,12 +828,12 @@ World::World(int caseNum):end(0)
 }
 void World::produceWarrior(int stance)
 {
-	auto nowLife = headquarter[stance].lifeNum;//µ±Ç°Ë¾Áî²¿ÉúÃüÔª
-	auto nextProduceLife = startWarriorLifeNum[workOrder[stance][headquarter[stance].nextProduce]];//¼ÆËãÏÂÒ»¸öÒªÖÆÔìµÄÎäÊ¿ËùÏûºÄÉúÃüÔª
+	auto nowLife = headquarter[stance].lifeNum;//å½“å‰å¸ä»¤éƒ¨ç”Ÿå‘½å…ƒ
+	auto nextProduceLife = startWarriorLifeNum[workOrder[stance][headquarter[stance].nextProduce]];//è®¡ç®—ä¸‹ä¸€ä¸ªè¦åˆ¶é€ çš„æ­¦å£«æ‰€æ¶ˆè€—ç”Ÿå‘½å…ƒ
 	int searchingNum = 0;
 	bool check = false, lifeNum = 0;
 	int temp = 1;
-	if (lifeNum > Warrior::birthData[workOrder[stance][(nextProduceLife + temp) % 5]])//Ñ­»·¿¼²ì
+	if (lifeNum > Warrior::birthData[workOrder[stance][(nextProduceLife + temp) % 5]])//å¾ªç¯è€ƒå¯Ÿ
 	{
 		lifeNum -= Warrior::birthData[workOrder[stance][(nextProduceLife + temp) % 5]];
 		int Number = 1;
@@ -857,56 +856,56 @@ void World::produceWarrior(int stance)
 			break;
 		}
 	}
-	if (nowLife >= nextProduceLife)//·ûºÏÌõ¼ş£¬¿ÉÒÔ¼ÌĞøÖÆÔìÎäÊ¿
+	if (nowLife >= nextProduceLife)//ç¬¦åˆæ¡ä»¶ï¼Œå¯ä»¥ç»§ç»­åˆ¶é€ æ­¦å£«
 	{
 		auto tempNum = ++headquarter[stance].sumWarriorNum;
 		auto tempLocation = (stance == 1) ? cityNum + 1 : 0;
 		headquarter[stance].lifeNum -= nextProduceLife;
 		warrior[stance][tempNum].set(time, stance, headquarter[stance].sumWarriorNum, cityNum, workOrder[stance][headquarter[stance].nextProduce]
 			, nextProduceLife, startWarriorAggressivity[workOrder[stance][headquarter[stance].nextProduce]], headquarter[stance].lifeNum);
-		cities[tempLocation].warrior[stance] = &warrior[stance][tempNum];//ÉèÖÃÎäÊ¿ĞÅÏ¢
+		cities[tempLocation].warrior[stance] = &warrior[stance][tempNum];//è®¾ç½®æ­¦å£«ä¿¡æ¯
 
-		headquarter[stance].nextProduce++;//ÏÂÒ»¸öÒªÖÆÔìµÄÎäÊ¿
-		headquarter[stance].nextProduce %= 5;//ÏÂÒ»¸öÒªÖÆÔìµÄÎäÊ¿
+		headquarter[stance].nextProduce++;//ä¸‹ä¸€ä¸ªè¦åˆ¶é€ çš„æ­¦å£«
+		headquarter[stance].nextProduce %= 5;//ä¸‹ä¸€ä¸ªè¦åˆ¶é€ çš„æ­¦å£«
 	}
 }
 void World::march()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		for (int j = 1; j <= headquarter[i].sumWarriorNum; j++)//Ã¶¾Ù
+		for (int j = 1; j <= headquarter[i].sumWarriorNum; j++)//æšä¸¾
 		{
-			if (warrior[i][j].isAlive)//ËÀµÄÎäÊ¿¾Í²»±Ø´¦ÀíÁË
+			if (warrior[i][j].isAlive)//æ­»çš„æ­¦å£«å°±ä¸å¿…å¤„ç†äº†
 			{
-				cities[warrior[i][j].position].warrior[i] = NULL;//Ô­Î»ÖÃÇå¿Õ
-				warrior[i][j].match();//ĞĞ¾ü
-				cities[warrior[i][j].position].warrior[i] = &warrior[i][j];//ĞÂÎ»ÖÃÕ¼Áì
+				cities[warrior[i][j].position].warrior[i] = NULL;//åŸä½ç½®æ¸…ç©º
+				warrior[i][j].match();//è¡Œå†›
+				cities[warrior[i][j].position].warrior[i] = &warrior[i][j];//æ–°ä½ç½®å é¢†
 			}
 		}
 	}
 }
 void World::work()
 {
-	for (int i = 0; i <= cityNum + 1; i++)//Ã¶¾Ù
+	for (int i = 0; i <= cityNum + 1; i++)//æšä¸¾
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			if (cities[i].warrior[j])//ÓĞÎäÊ¿
+			if (cities[i].warrior[j])//æœ‰æ­¦å£«
 			{
 				cout << time;
-				if (i == 0 || (i == cityNum + 1))//Èç¹ûÎ»ÖÃÔÚË¾Áî²¿
+				if (i == 0 || (i == cityNum + 1))//å¦‚æœä½ç½®åœ¨å¸ä»¤éƒ¨
 				{
 					headquarter[j].reach++;
-					cities[i].warrior[j]->reachDestination();//µ½´ïÄ¿µÄµØ
+					cities[i].warrior[j]->reachDestination();//åˆ°è¾¾ç›®çš„åœ°
 					cities[i].warrior[j] = NULL;
 					if ((headquarter[j].reach == 2))
 					{
 						cout << time << colorName[!j] << " headquarter was taken" << endl;
-						end = 1;//Ò»·½Ë¾Áî²¿±»Õ¼ÁË£¬ÓÎÏ·½áÊø£¡×¢ÒâÕâÀï²»ÒªÖ±½Óreturn 0£¬ÒòÎª¿ÉÄÜ»¹ÓĞÍ¬Ò»Ê±¿Ì·¢ÉúµÄÊÂ¼şĞèÒªÊä³ö
+						end = 1;//ä¸€æ–¹å¸ä»¤éƒ¨è¢«å äº†ï¼Œæ¸¸æˆç»“æŸï¼æ³¨æ„è¿™é‡Œä¸è¦ç›´æ¥return 0ï¼Œå› ä¸ºå¯èƒ½è¿˜æœ‰åŒä¸€æ—¶åˆ»å‘ç”Ÿçš„äº‹ä»¶éœ€è¦è¾“å‡º
 					}
 				}
 				else
-					cities[i].warrior[j]->showmarch();//Î»ÖÃ²»ÔÚË¾Áî²¿£¬Ö»ÊÇÆÕÍ¨µÄĞĞ¾ü¶øÒÑ
+					cities[i].warrior[j]->showmarch();//ä½ç½®ä¸åœ¨å¸ä»¤éƒ¨ï¼Œåªæ˜¯æ™®é€šçš„è¡Œå†›è€Œå·²
 			}
 		}
 	}
@@ -915,12 +914,12 @@ void World::earnLifePoint(int i)
 {
 	for (int k = 0; k < 2; k++)
 	{
-		if (!cities[i].warrior[k] && cities[i].warrior[!k])//±¾³ÇÊĞÖ»ÓĞÎÒ×Ô¼º
+		if (!cities[i].warrior[k] && cities[i].warrior[!k])//æœ¬åŸå¸‚åªæœ‰æˆ‘è‡ªå·±
 		{
-			headquarter[!k].lifeNum += cities[i].lifeNum;//ÊÕ»ñÉúÃüÔª
+			headquarter[!k].lifeNum += cities[i].lifeNum;//æ”¶è·ç”Ÿå‘½å…ƒ
 			cout << time << *(cities[i].warrior[!k]) << " earned " << cities[i].lifeNum
 				<< " elements for his headquarter" << endl;
-			cities[i].lifeNum = 0;//³ÇÊĞÉúÃüÔª±»ÊÕ¸î
+			cities[i].lifeNum = 0;//åŸå¸‚ç”Ÿå‘½å…ƒè¢«æ”¶å‰²
 		}
 	}
 }
@@ -931,17 +930,17 @@ void World::releaseArrow()
 		int dx[] = { 1,-1 };
 		for (int j = 0; j < 2; j++)
 		{
-			if (i + dx[j] >= 1 && i + dx[j] <= cityNum)//ÏÂÒ»¸öµØ·½µÄ³ÇÊĞÎ»ÖÃºÏ·¨
+			if (i + dx[j] >= 1 && i + dx[j] <= cityNum)//ä¸‹ä¸€ä¸ªåœ°æ–¹çš„åŸå¸‚ä½ç½®åˆæ³•
 			{
-				if (cities[i].warrior[j] && cities[i + dx[j]].warrior[!j])//ÏÂÒ»¸öµØ·½ÓĞµĞ¾ü
+				if (cities[i].warrior[j] && cities[i + dx[j]].warrior[!j])//ä¸‹ä¸€ä¸ªåœ°æ–¹æœ‰æ•Œå†›
 				{
-					if (cities[i].warrior[j]->arrowNum > 0)//×Ô¼ºÊÖÀïÓĞ¹­¼ı
+					if (cities[i].warrior[j]->arrowNum > 0)//è‡ªå·±æ‰‹é‡Œæœ‰å¼“ç®­
 					{
-						cities[i + dx[j]].warrior[!j]->lifePoint -= arrowAttack;//·Å¼ıÉäÉ±
-						cities[i].warrior[j]->arrowNum--;//ÓÃÍê¾ÍÉÙÁË
-						if (cities[i + dx[j]].warrior[!j]->lifePoint <= 0)//É±ËÀµĞ¾ü
+						cities[i + dx[j]].warrior[!j]->lifePoint -= arrowAttack;//æ”¾ç®­å°„æ€
+						cities[i].warrior[j]->arrowNum--;//ç”¨å®Œå°±å°‘äº†
+						if (cities[i + dx[j]].warrior[!j]->lifePoint <= 0)//æ€æ­»æ•Œå†›
 							cout << time << *(cities[i].warrior[j]) << " shot and killed " << *(cities[i + dx[j]].warrior[!j]) << endl;
-						else//Ã»É±ËÀµĞ¾ü
+						else//æ²¡æ€æ­»æ•Œå†›
 							cout << time << *(cities[i].warrior[j]) << " shot" << endl;
 					}
 				}
@@ -953,26 +952,26 @@ void World::releaseBomb()
 {
 	for (int i = 1; i <= cityNum; i++)
 	{
-		if (cities[i].warrior[0] && cities[i].warrior[1])//ÓĞÁ½¸öÎäÊ¿
+		if (cities[i].warrior[0] && cities[i].warrior[1])//æœ‰ä¸¤ä¸ªæ­¦å£«
 		{
-			if (cities[i].warrior[0]->lifePoint > 0 && cities[i].warrior[1]->lifePoint > 0)//Ë«·½¶¼»î×Å
+			if (cities[i].warrior[0]->lifePoint > 0 && cities[i].warrior[1]->lifePoint > 0)//åŒæ–¹éƒ½æ´»ç€
 			{
-				auto temp1 = *cities[i].warrior[0];//¼ÇÂ¼Ä£ÄâÇ°×´Ì¬
-				auto temp2 = *cities[i].warrior[1];//¼ÇÂ¼Ä£ÄâÇ°×´Ì¬
-				int temp = cities[i].simulate(time, loyaltyLost); //Ä£ÄâÒ»´ÎÕ½¶·!£¡
-				*cities[i].warrior[0] = temp1;//»Ö¸´Ä£ÄâÇ°Ô­×´Ì¬
-				*cities[i].warrior[1] = temp2;//»Ö¸´Ä£ÄâÇ°Ô­×´Ì¬
-				if (temp == 0 && cities[i].warrior[0]->bombNum)//Èç¹ûÄ£Äâ½á¹ûÊÇÀ¶·½Ê¤£¬ºì·½½«Ê¹ÓÃÕ¨µ¯
+				auto temp1 = *cities[i].warrior[0];//è®°å½•æ¨¡æ‹Ÿå‰çŠ¶æ€
+				auto temp2 = *cities[i].warrior[1];//è®°å½•æ¨¡æ‹Ÿå‰çŠ¶æ€
+				int temp = cities[i].simulate(time, loyaltyLost); //æ¨¡æ‹Ÿä¸€æ¬¡æˆ˜æ–—!ï¼
+				*cities[i].warrior[0] = temp1;//æ¢å¤æ¨¡æ‹Ÿå‰åŸçŠ¶æ€
+				*cities[i].warrior[1] = temp2;//æ¢å¤æ¨¡æ‹Ÿå‰åŸçŠ¶æ€
+				if (temp == 0 && cities[i].warrior[0]->bombNum)//å¦‚æœæ¨¡æ‹Ÿç»“æœæ˜¯è“æ–¹èƒœï¼Œçº¢æ–¹å°†ä½¿ç”¨ç‚¸å¼¹
 				{
 					cout << time << *(cities[i].warrior[0]) << " used a bomb and killed " << *(cities[i].warrior[1]) << endl;
-					cities[i].warrior[0]->lifePoint = 0;//Í¬¹éÓÚ¾¡
-					cities[i].warrior[1]->lifePoint = 0;//Í¬¹éÓÚ¾¡
+					cities[i].warrior[0]->lifePoint = 0;//åŒå½’äºå°½
+					cities[i].warrior[1]->lifePoint = 0;//åŒå½’äºå°½
 				}
-				if (temp == 1 && cities[i].warrior[1]->bombNum)//Èç¹ûÄ£Äâ½á¹ûÊÇºì·½Ê¤£¬À¶·½½«Ê¹ÓÃÕ¨µ¯
+				if (temp == 1 && cities[i].warrior[1]->bombNum)//å¦‚æœæ¨¡æ‹Ÿç»“æœæ˜¯çº¢æ–¹èƒœï¼Œè“æ–¹å°†ä½¿ç”¨ç‚¸å¼¹
 				{
 					cout << time << *(cities[i].warrior[1]) << " used a bomb and killed " << *(cities[i].warrior[0]) << endl;
-					cities[i].warrior[0]->lifePoint = 0;//Í¬¹éÓÚ¾¡
-					cities[i].warrior[1]->lifePoint = 0;//Í¬¹éÓÚ¾¡
+					cities[i].warrior[0]->lifePoint = 0;//åŒå½’äºå°½
+					cities[i].warrior[1]->lifePoint = 0;//åŒå½’äºå°½
 				}
 			}
 		}
@@ -980,12 +979,12 @@ void World::releaseBomb()
 }
 void World::giveBonus(int stance, int position, int& bonus)
 {
-	//»ñµÃ½±Àø
-	bonus += cities[position].lifeNum;//ÊÕ»ñ³ÇÊĞÉúÃüÔª
-	cities[position].warrior[!stance]->isAlive = 0;//¶Ô·½ËÀÁË
-	cities[position].warrior[!stance] = NULL;//¶Ô·½ËÀÁË£¬Çå³ıÖ¸Õë
+	//è·å¾—å¥–åŠ±
+	bonus += cities[position].lifeNum;//æ”¶è·åŸå¸‚ç”Ÿå‘½å…ƒ
+	cities[position].warrior[!stance]->isAlive = 0;//å¯¹æ–¹æ­»äº†
+	cities[position].warrior[!stance] = NULL;//å¯¹æ–¹æ­»äº†ï¼Œæ¸…é™¤æŒ‡é’ˆ
 	cities[position].lifeNum = 0;
-	if (headquarter[stance].lifeNum - 8 > 0)//Ë¾Áî²¿»¹¿ÉÒÔ¸øÓè½±Àø
+	if (headquarter[stance].lifeNum - 8 > 0)//å¸ä»¤éƒ¨è¿˜å¯ä»¥ç»™äºˆå¥–åŠ±
 	{
 		headquarter[stance].lifeNum -= 8;
 		cities[position].warrior[stance]->lifePoint += 8;
@@ -995,7 +994,7 @@ void World::output()
 {
 	for (int i = headquarter[0].sumWarriorNum; i > 0; i--)
 	{
-		//Èç¹û»¹»î×Å»òÕßÒÑ¾­µ½´ï¶Ô·½Ë¾Áî²¿£¬¾ÍÊä³ö£¡
+		//å¦‚æœè¿˜æ´»ç€æˆ–è€…å·²ç»åˆ°è¾¾å¯¹æ–¹å¸ä»¤éƒ¨ï¼Œå°±è¾“å‡ºï¼
 		if (warrior[0][i].isAlive)
 		{
 			cout << time;
@@ -1009,7 +1008,7 @@ void World::output()
 	}
 	for (int i = 1; i <= headquarter[1].sumWarriorNum; i++)
 	{
-		//Èç¹û»¹»î×Å»òÕßÒÑ¾­µ½´ï¶Ô·½Ë¾Áî²¿£¬¾ÍÊä³ö£¡
+		//å¦‚æœè¿˜æ´»ç€æˆ–è€…å·²ç»åˆ°è¾¾å¯¹æ–¹å¸ä»¤éƒ¨ï¼Œå°±è¾“å‡ºï¼
 		if (warrior[1][i].isAlive)
 		{
 			cout << time;
@@ -1027,50 +1026,50 @@ void World::fight()
 	int A = 0, B = 0;
 	for (int i = 1; i <= cityNum; i++)
 	{
-		if (cities[i].warrior[0] && cities[i].warrior[1])//¸Ã³ÇÊĞÓĞÁ½¸öÎäÊ¿
+		if (cities[i].warrior[0] && cities[i].warrior[1])//è¯¥åŸå¸‚æœ‰ä¸¤ä¸ªæ­¦å£«
 		{
-			if (cities[i].warrior[0]->lifePoint <= 0 && cities[i].warrior[1]->lifePoint <= 0)//Ë«·½¶¼ËÀÁË
+			if (cities[i].warrior[0]->lifePoint <= 0 && cities[i].warrior[1]->lifePoint <= 0)//åŒæ–¹éƒ½æ­»äº†
 			{
 				cities[i].warrior[0]->isAlive = 0;
 				cities[i].warrior[1]->isAlive = 0;
 				cities[i].warrior[0] = cities[i].warrior[1] = NULL;
 			}
-			else if (cities[i].warrior[0]->lifePoint <= 0)//ºì·½ËÀÁË
+			else if (cities[i].warrior[0]->lifePoint <= 0)//çº¢æ–¹æ­»äº†
 			{
 				cities[i].work(time, 1);
-				giveBonus(1, i, B);//À¶B»ñµÃ½±Àø
+				giveBonus(1, i, B);//è“Bè·å¾—å¥–åŠ±
 			}
-			else if (cities[i].warrior[1]->lifePoint <= 0)//À¶·½ËÀÁË
+			else if (cities[i].warrior[1]->lifePoint <= 0)//è“æ–¹æ­»äº†
 			{
 				cities[i].work(time, 0);
-				giveBonus(0, i, A);//ºìA»ñµÃ½±Àø
+				giveBonus(0, i, A);//çº¢Aè·å¾—å¥–åŠ±
 			}
 			else
 			{
-				//Ë«·½¶¼»î×Å£¬×¼±¸¿ªÕ½£¡
+				//åŒæ–¹éƒ½æ´»ç€ï¼Œå‡†å¤‡å¼€æˆ˜ï¼
 				int temp = cities[i].fight(time,loyaltyLost);
-				if (temp == 0)//ºì·½ÊäÁË£¬À¶B»ñµÃ½±Àø
+				if (temp == 0)//çº¢æ–¹è¾“äº†ï¼Œè“Bè·å¾—å¥–åŠ±
 				{
 					giveBonus(1, i, B);
 				}
-				else if (temp == 1)//À¶·½ÊäÁË£¬ºìA»ñµÃ½±Àø
+				else if (temp == 1)//è“æ–¹è¾“äº†ï¼Œçº¢Aè·å¾—å¥–åŠ±
 				{
 					giveBonus(0, i, A);
 				}
 			}
 		}
-		else if (cities[i].warrior[0] != NULL && cities[i].warrior[0]->lifePoint <= 0)//Ò»·½ÎŞÎäÊ¿
+		else if (cities[i].warrior[0] != NULL && cities[i].warrior[0]->lifePoint <= 0)//ä¸€æ–¹æ— æ­¦å£«
 		{
 			cities[i].warrior[0]->isAlive = 0;
 			cities[i].warrior[0] = NULL;
 		}
-		else if (cities[i].warrior[1] != NULL && cities[i].warrior[1]->lifePoint <= 0)//Ò»·½ÎŞÎäÊ¿
+		else if (cities[i].warrior[1] != NULL && cities[i].warrior[1]->lifePoint <= 0)//ä¸€æ–¹æ— æ­¦å£«
 		{
 			cities[i].warrior[1]->isAlive = 0;
 			cities[i].warrior[1] = NULL;
 		}
 	}
-	headquarter[0].lifeNum += A;//Ë¾Áî²¿»ØÊÕÉúÃüÔª
+	headquarter[0].lifeNum += A;//å¸ä»¤éƒ¨å›æ”¶ç”Ÿå‘½å…ƒ
 	headquarter[1].lifeNum += B;
 }
 void World::escape(int position, int stance)
@@ -1081,7 +1080,7 @@ void World::escape(int position, int stance)
 		{
 			if (cities[position].warrior[stance]->loyalty <= 0)
 			{
-				//ÖÒ³Ï¶È½µÖÁ0»ò0ÒÔÏÂ£¬Ôò¸ÃlionÌÓÀëÕ½³¡,ÓÀÔ¶ÏûÊ§¡£µ«ÊÇÒÑ¾­µ½´ïµĞÈËË¾Áî²¿µÄlion²»»áÌÓÅÜ¡£LionÔÚ¼º·½Ë¾Áî²¿¿ÉÄÜÌÓÅÜ¡£
+				//å¿ è¯šåº¦é™è‡³0æˆ–0ä»¥ä¸‹ï¼Œåˆ™è¯¥lioné€ƒç¦»æˆ˜åœº,æ°¸è¿œæ¶ˆå¤±ã€‚ä½†æ˜¯å·²ç»åˆ°è¾¾æ•Œäººå¸ä»¤éƒ¨çš„lionä¸ä¼šé€ƒè·‘ã€‚Lionåœ¨å·±æ–¹å¸ä»¤éƒ¨å¯èƒ½é€ƒè·‘ã€‚
 				cout << time << colorName[stance] << " lion " << cities[position].warrior[stance]->No << " ran away" << endl;
 				cities[position].warrior[stance]->isAlive = 0;
 				cities[position].warrior[stance] = NULL;
@@ -1093,60 +1092,60 @@ void World::operation()
 {
 	while (true)
 	{
-		//ÔÚÃ¿¸öÕûµã£¬¼´Ã¿¸öĞ¡Ê±µÄµÚ0·Ö£¬ Ë«·½µÄË¾Áî²¿ÖĞ¸÷ÓĞÒ»¸öÎäÊ¿½µÉú¡£
+		//åœ¨æ¯ä¸ªæ•´ç‚¹ï¼Œå³æ¯ä¸ªå°æ—¶çš„ç¬¬0åˆ†ï¼Œ åŒæ–¹çš„å¸ä»¤éƒ¨ä¸­å„æœ‰ä¸€ä¸ªæ­¦å£«é™ç”Ÿã€‚
 		produceWarrior(0), produceWarrior(1);
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ5·Ö£¬¸ÃÌÓÅÜµÄlion¾ÍÔÚÕâÒ»Ê±¿ÌÌÓÅÜÁË¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬5åˆ†ï¼Œè¯¥é€ƒè·‘çš„lionå°±åœ¨è¿™ä¸€æ—¶åˆ»é€ƒè·‘äº†ã€‚
 		if ((time += 5) == 0)
 			break;
 		for (int i = 0; i <= cityNum + 1; i++)
 			for (int j = 0; j < 2; j++)
 				if (cities[i].warrior[j])
 					escape(i, j);
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ10·Ö£ºËùÓĞµÄÎäÊ¿³¯µĞÈËË¾Áî²¿·½ÏòÇ°½øÒ»²½¡£¼´´Ó¼º·½Ë¾Áî²¿×ßµ½ÏàÁÚ³ÇÊĞ£¬»ò´ÓÒ»¸ö³ÇÊĞ×ßµ½ÏÂÒ»¸ö³ÇÊĞ¡£
-		//»ò´ÓºÍµĞ¾üË¾Áî²¿ÏàÁÚµÄ³ÇÊĞµ½´ïµĞ¾üË¾Áî²¿¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬10åˆ†ï¼šæ‰€æœ‰çš„æ­¦å£«æœæ•Œäººå¸ä»¤éƒ¨æ–¹å‘å‰è¿›ä¸€æ­¥ã€‚å³ä»å·±æ–¹å¸ä»¤éƒ¨èµ°åˆ°ç›¸é‚»åŸå¸‚ï¼Œæˆ–ä»ä¸€ä¸ªåŸå¸‚èµ°åˆ°ä¸‹ä¸€ä¸ªåŸå¸‚ã€‚
+		//æˆ–ä»å’Œæ•Œå†›å¸ä»¤éƒ¨ç›¸é‚»çš„åŸå¸‚åˆ°è¾¾æ•Œå†›å¸ä»¤éƒ¨ã€‚
 		if ((time += 5) == 0)
 			break;
 		march();
 		work();
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ20·Ö£ºÃ¿¸ö³ÇÊĞ²ú³ö10¸öÉúÃüÔª¡£ÉúÃüÔªÁôÔÚ³ÇÊĞ£¬Ö±µ½±»ÎäÊ¿È¡×ß¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬20åˆ†ï¼šæ¯ä¸ªåŸå¸‚äº§å‡º10ä¸ªç”Ÿå‘½å…ƒã€‚ç”Ÿå‘½å…ƒç•™åœ¨åŸå¸‚ï¼Œç›´åˆ°è¢«æ­¦å£«å–èµ°ã€‚
 		if (end)
 			break;
 		if ((time += 10) == 0)
 			break;
 		for (int i = 1; i <= cityNum; i++)
 			cities[i].produceElements();
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ30·Ö£ºÈç¹ûÄ³¸ö³ÇÊĞÖĞÖ»ÓĞÒ»¸öÎäÊ¿£¬ÄÇÃ´¸ÃÎäÊ¿È¡×ß¸Ã³ÇÊĞÖĞµÄËùÓĞÉúÃüÔª£¬
-		//²¢Á¢¼´½«ÕâĞ©ÉúÃüÔª´«ËÍµ½ÆäËùÊôµÄË¾Áî²¿¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬30åˆ†ï¼šå¦‚æœæŸä¸ªåŸå¸‚ä¸­åªæœ‰ä¸€ä¸ªæ­¦å£«ï¼Œé‚£ä¹ˆè¯¥æ­¦å£«å–èµ°è¯¥åŸå¸‚ä¸­çš„æ‰€æœ‰ç”Ÿå‘½å…ƒï¼Œ
+		//å¹¶ç«‹å³å°†è¿™äº›ç”Ÿå‘½å…ƒä¼ é€åˆ°å…¶æ‰€å±çš„å¸ä»¤éƒ¨ã€‚
 		if ((time += 10) == false)
 			break;
 		for (int i = 1; i <= cityNum; i++)
 			earnLifePoint(i);
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ35·Ö£¬ÓµÓĞarrowµÄÎäÊ¿·Å¼ı£¬¶ÔµĞÈËÔì³ÉÉËº¦¡£·Å¼ıÊÂ¼şÓ¦Ëã·¢ÉúÔÚ¼ı·¢³öµÄ³ÇÊĞ¡£×¢Òâ£¬·Å¼ı²»ËãÊÇÕ½¶·£¬
-		//Òò´Ë·Å¼ıµÄÎäÊ¿²»»áµÃµ½ÈÎºÎºÃ´¦¡£ÎäÊ¿ÔÚÃ»ÓĞµĞÈËµÄ³ÇÊĞ±»¼ıÉäËÀÒ²²»Ó°ÏìÆäËùÔÚ³ÇÊĞµÄÆìÖÄ¸ü»»Çé¿ö¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬35åˆ†ï¼Œæ‹¥æœ‰arrowçš„æ­¦å£«æ”¾ç®­ï¼Œå¯¹æ•Œäººé€ æˆä¼¤å®³ã€‚æ”¾ç®­äº‹ä»¶åº”ç®—å‘ç”Ÿåœ¨ç®­å‘å‡ºçš„åŸå¸‚ã€‚æ³¨æ„ï¼Œæ”¾ç®­ä¸ç®—æ˜¯æˆ˜æ–—ï¼Œ
+		//å› æ­¤æ”¾ç®­çš„æ­¦å£«ä¸ä¼šå¾—åˆ°ä»»ä½•å¥½å¤„ã€‚æ­¦å£«åœ¨æ²¡æœ‰æ•Œäººçš„åŸå¸‚è¢«ç®­å°„æ­»ä¹Ÿä¸å½±å“å…¶æ‰€åœ¨åŸå¸‚çš„æ——å¸œæ›´æ¢æƒ…å†µã€‚
 		if ((time += 5) == false)
 			break;
 		releaseArrow();
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ38·Ö£¬ÓµÓĞbombµÄÎäÊ¿ÆÀ¹ÀÊÇ·ñÓ¦¸ÃÊ¹ÓÃbomb¡£Èç¹ûÊÇ£¬¾ÍÓÃbombºÍµĞÈËÍ¬¹éÓÚ¾¡¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬38åˆ†ï¼Œæ‹¥æœ‰bombçš„æ­¦å£«è¯„ä¼°æ˜¯å¦åº”è¯¥ä½¿ç”¨bombã€‚å¦‚æœæ˜¯ï¼Œå°±ç”¨bombå’Œæ•ŒäººåŒå½’äºå°½ã€‚
 		if ((time += 3) == false)
 			break;
 		releaseBomb();
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ40·Ö£ºÔÚÓĞÁ½¸öÎäÊ¿µÄ³ÇÊĞ£¬»á·¢ÉúÕ½¶·¡£ Èç¹ûµĞÈËÔÚ5·ÖÖÓÇ°ÒÑ¾­±»·ÉÀ´µÄarrowÉäËÀ£¬ÄÇÃ´ÈÔÈ»ÊÓÎª·¢ÉúÁËÒ»³¡Õ½¶·£¬
-		//¶øÇÒ´æ»îÕßÊÓÎª»ñµÃÁËÕ½¶·µÄÊ¤Àû¡£´ËÇé¿öÏÂ²»»áÓĞ¡°ÎäÊ¿Ö÷¶¯¹¥»÷¡±£¬¡°ÎäÊ¿·´»÷¡±£¬¡°ÎäÊ¿Õ½ËÀ¡±µÄÊÂ¼ş·¢Éú£¬
-		//µ«Õ½¶·Ê¤ÀûºóÓ¦¸Ã·¢ÉúµÄÊÂÇé¶¼»á·¢Éú¡£ÈçWolfÒ»ÑùÄÜ½É»ñÎäÆ÷£¬ÆìÖÄÒ²¿ÉÄÜ¸ü»»£¬µÈµÈ¡£
-		//ÔÚ´ËÇé¿öÏÂ,DragonÍ¬Ñù»áÍ¨¹ıÅĞ¶ÏÊÇ·ñÓ¦¸ÃÂÖµ½×Ô¼ºÖ÷¶¯¹¥»÷À´¾ö¶¨ÊÇ·ñ»¶ºô¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬40åˆ†ï¼šåœ¨æœ‰ä¸¤ä¸ªæ­¦å£«çš„åŸå¸‚ï¼Œä¼šå‘ç”Ÿæˆ˜æ–—ã€‚ å¦‚æœæ•Œäººåœ¨5åˆ†é’Ÿå‰å·²ç»è¢«é£æ¥çš„arrowå°„æ­»ï¼Œé‚£ä¹ˆä»ç„¶è§†ä¸ºå‘ç”Ÿäº†ä¸€åœºæˆ˜æ–—ï¼Œ
+		//è€Œä¸”å­˜æ´»è€…è§†ä¸ºè·å¾—äº†æˆ˜æ–—çš„èƒœåˆ©ã€‚æ­¤æƒ…å†µä¸‹ä¸ä¼šæœ‰â€œæ­¦å£«ä¸»åŠ¨æ”»å‡»â€ï¼Œâ€œæ­¦å£«åå‡»â€ï¼Œâ€œæ­¦å£«æˆ˜æ­»â€çš„äº‹ä»¶å‘ç”Ÿï¼Œ
+		//ä½†æˆ˜æ–—èƒœåˆ©ååº”è¯¥å‘ç”Ÿçš„äº‹æƒ…éƒ½ä¼šå‘ç”Ÿã€‚å¦‚Wolfä¸€æ ·èƒ½ç¼´è·æ­¦å™¨ï¼Œæ——å¸œä¹Ÿå¯èƒ½æ›´æ¢ï¼Œç­‰ç­‰ã€‚
+		//åœ¨æ­¤æƒ…å†µä¸‹,DragonåŒæ ·ä¼šé€šè¿‡åˆ¤æ–­æ˜¯å¦åº”è¯¥è½®åˆ°è‡ªå·±ä¸»åŠ¨æ”»å‡»æ¥å†³å®šæ˜¯å¦æ¬¢å‘¼ã€‚
 		if ((time += 2) == false)
 			break;
 		fight();
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ50·Ö£¬Ë¾Áî²¿±¨¸æËüÓµÓĞµÄÉúÃüÔªÊıÁ¿¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬50åˆ†ï¼Œå¸ä»¤éƒ¨æŠ¥å‘Šå®ƒæ‹¥æœ‰çš„ç”Ÿå‘½å…ƒæ•°é‡ã€‚
 		if ((time += 10) == false)
 			break;
 		for (int i = 0; i < 2; i++)
 			cout << time << headquarter[i];
-		//ÔÚÃ¿¸öĞ¡Ê±µÄµÚ55·Ö£¬Ã¿¸öÎäÊ¿±¨¸æÆäÓµÓĞµÄÎäÆ÷Çé¿ö¡£
+		//åœ¨æ¯ä¸ªå°æ—¶çš„ç¬¬55åˆ†ï¼Œæ¯ä¸ªæ­¦å£«æŠ¥å‘Šå…¶æ‹¥æœ‰çš„æ­¦å™¨æƒ…å†µã€‚
 		if ((time += 5) == false)
 			break;
 		output();
-		//ÔÚÃ¿Ğ¡Ê±µÄµÚ60·Ö£¬¼´Õûµã£¬Ñ­»·¡£
+		//åœ¨æ¯å°æ—¶çš„ç¬¬60åˆ†ï¼Œå³æ•´ç‚¹ï¼Œå¾ªç¯ã€‚
 		if ((time += 5) == false)
 			break;
 	}
@@ -1158,17 +1157,17 @@ void World::myDelete()
 	delete[] warrior[1];
 }
 
-//ÒÔÏÂÊÇmainº¯Êı----------------------------------------------------------
+//ä»¥ä¸‹æ˜¯mainå‡½æ•°----------------------------------------------------------
 int main()
 {
 	int num;
-	cin >> num;//ÊäÈë×ÜÊı
+	cin >> num;//è¾“å…¥æ€»æ•°
 	const int iterator = num;
 	while (num--)
 	{
-		World world(iterator - num);//·Ö±ğ´¦Àí
-		world.operation();//Õû¸öÄ§ÊŞÊÀ½çµÄÔËĞĞ
-		world.myDelete();//Ã¿×éÊı¾İ²Ù×÷½áÊøºó£¬É¾³ıÄÚ´æÈßÓà
+		World world(iterator - num);//åˆ†åˆ«å¤„ç†
+		world.operation();//æ•´ä¸ªé­”å…½ä¸–ç•Œçš„è¿è¡Œ
+		world.myDelete();//æ¯ç»„æ•°æ®æ“ä½œç»“æŸåï¼Œåˆ é™¤å†…å­˜å†—ä½™
 	}
 	return 0;
 }
